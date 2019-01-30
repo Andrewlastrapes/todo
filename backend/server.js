@@ -1,7 +1,7 @@
-const express = require("express");
-const app = express();
+const app = require("./app");
+const http = require("http");
+const server = http.createServer(app)
 
-app.listen(3000, () => {
+server.listen(3006, () => {
     console.log("listening")
-    console.log("testing gitq")
 })

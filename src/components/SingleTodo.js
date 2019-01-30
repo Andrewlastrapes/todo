@@ -3,32 +3,43 @@ import { Card, Button, CardHeader, CardFooter, CardBody,
     CardTitle, CardText, Container } from 'reactstrap';
 
 class SingleTodo extends Component {
-    constructor(props) {
-        super(props)
-        this.selectPriority = this.selectPriority.bind(this);
+
+    state = {
+        boxColor: ""
     }
 
-    selectPriority(a, b, c){
-        if(a){
-            return "danger"
-        } else if(b) {
-            return "primary"
-        } else if(c) {
-            return "success"
+    constructor(props) {
+        super(props)
+       
+    }
+
+
+    componentDidMount(){
+        if(this.props.priority === "important"){
+            this.setState({
+                boxColor: "danger"
+            })
+        } else {
+        let color = this.props.priority === "less" ? "primary" : "success";
+            this.setState({
+                boxColor: color
+            })
         }
     }
 
     render() {
-        const { title, date, additional, important, less, wait } = this.props
-
+        const { title, date, additional, priority} = this.props
+        const { boxColor } = this.state
 
         return (
             <div>
                 <Container>
-                    <Card body outline color={this.selectPriority(important, less, wait )}> 
+                    <Card body outline color={boxColor}> 
                         <CardHeader>{title}</CardHeader>
-                        <CardBody>
-                            <CardText>Time Created: {date}</CardText>
+                        <CardBody >
+                            <div className ="text-right">
+                            <CardText>{date}</CardText>
+                            </div>
                         <CardText>{additional}</CardText>
                         </CardBody>
                     </Card>

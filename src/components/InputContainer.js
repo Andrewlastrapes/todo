@@ -6,10 +6,8 @@ import "../css/InputContainer.css"
 class InputContainer extends Component {
 
     state = {
-        task: '',
-        important: false,
-        less: false,
-        wait: false,
+        title: '',
+        priority: "",
         additional: "" 
     }
 
@@ -19,37 +17,22 @@ class InputContainer extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAdditionalChange = this.handleAdditionalChange.bind(this);
-        this.handleImportant = this.handleImportant.bind(this);
-        this.handleLess = this.handleLess.bind(this);
-        this.handleWait = this.handleWait.bind(this);
+        this.handlePriority = this.handlePriority.bind(this);
 
     }
 
-    handleImportant(){
-        this.setState({
-            important: true,
-            less: false,
-            wait: false
+
+    handlePriority(event){
+        
+    this.setState({
+            priority: event.target.value
         })
     }
-    handleLess(){
-        this.setState({
-            less: true,
-            wait: false,
-            important: false
-        })
-    }
-    handleWait(){
-        this.setState({
-            wait: true,
-            less: false,
-            important: false
-        })
-    }
+
 
     handleChange(event, type) {
         console.log(type)
-        this.setState({task: event.target.value});
+        this.setState({title: event.target.value});
         }
     
         handleAdditionalChange(event){
@@ -70,13 +53,13 @@ class InputContainer extends Component {
                     <Card body inverse color="primary">
                         <CardBody>
                             <CardTitle>Add Task</CardTitle>
-                                <Input placeholder="Task" value={this.state.task} onChange={this.handleChange}></Input>
+                                <Input placeholder="Task" value={this.state.title} onChange={this.handleChange}></Input>
                                 <div className="priorityAndAdditionalNotes">
                                     <Row>
                                         <Col sm="2">
                                             <FormGroup check>
                                                 <Label check>
-                                                    <Input type="radio" name="radio1" value={this.state.value} onChange={this.handleImportant}  />{' '}
+                                                    <Input type="radio" name="radio1" value={'important'} onChange={this.handlePriority}  />{' '}
                                                     Important
                                                 </Label>
                                             </FormGroup>
@@ -84,7 +67,7 @@ class InputContainer extends Component {
                                         <Col sm="2">
                                             <FormGroup check>
                                                 <Label check>
-                                                    <Input type="radio" name="radio1" value={this.state.less} onChange={this.handleLess} />{' '}
+                                                    <Input type="radio" name="radio1" value={'less'} onChange={this.handlePriority} />{' '}
                                                     Less important
                                                 </Label>
                                             </FormGroup>
@@ -92,7 +75,7 @@ class InputContainer extends Component {
                                         <Col sm="2">
                                             <FormGroup check>
                                                 <Label check>
-                                                    <Input type="radio" name="radio1" value={this.state.wait} onChange={this.handleWait}/>{' '}
+                                                    <Input type="radio" name="radio1" value={'wait'} onChange={this.handlePriority}/>{' '}
                                                     Can wait
                                                 </Label>
                                             </FormGroup>

@@ -1,23 +1,46 @@
 import React, { Component } from "react";
-import SingleTodo from "./SingleTodo"
+import SingleTodo from "./SingleTodo";
+import axios from "axios"
 
 class TodoList extends Component {
 
+    state = {
+        todos: []
+    }
+
     constructor(props){
         super(props);
-        console.log(this.props.task)
+        
+        this.apiCall = this.apiCall.bind(this);
+        
+    }
+
+    apiCall(){
+        axios.get("http://localhost:3006/post")
+        .then(data => {
+            this.setState({
+                todos: data["data"]["data"]
+            });
+        });
+        console.log(this.state)
     }
 
     componentDidMount(){
-        // recieves data from backend to map
+        this.apiCall()
+    }
+    
+
+    componentDidUpdate(){
+       this.apiCall()
     }
 
     render(){
-        const { title, date, additional, important, less, wait } = this.props.data;
+        const { todos } = this.state
         return(
-            this.props.data.map((t, i)  => 
-                <SingleTodo title={title} date={date} additional={additional[i]} important={important} less={less} wait={wait} key={i}></SingleTodo>
+            todos.map((t)  => 
+                <SingleTodo title={t.title} date={t.date} additional={t.additionalNotes} priority={t.priority} key={t._id}></SingleTodo>
             )
+            
         )
     }
 }
