@@ -33,6 +33,7 @@ class SingleTodo extends Component {
 
         return (
             <div>
+
                 <Container>
                     <Card body outline color={boxColor}> 
                         <CardHeader>{title}</CardHeader>

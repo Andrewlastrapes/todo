@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Input, InputGroup, FormGroup, Form, Label, Container, Card, CardTitle, CardBody, Row, Col } from "reactstrap";
 import "../css/InputContainer.css"
+import Error from "./Error";
 
 
 class InputContainer extends Component {
@@ -8,7 +9,8 @@ class InputContainer extends Component {
     state = {
         title: '',
         priority: "",
-        additional: "" 
+        additional: "",
+        showError: false
     }
 
     constructor(props) {
@@ -22,9 +24,9 @@ class InputContainer extends Component {
     }
 
 
-    handlePriority(event){
-        
-    this.setState({
+    handlePriority(event) {
+
+        this.setState({
             priority: event.target.value
         })
     }
@@ -32,70 +34,87 @@ class InputContainer extends Component {
 
     handleChange(event, type) {
         console.log(type)
-        this.setState({title: event.target.value});
-        }
-    
-        handleAdditionalChange(event){
-            this.setState({
-                additional: event.target.value
-            })
-        }
+        this.setState({ title: event.target.value });
+    }
 
-    handleSubmit(event){
+    handleAdditionalChange(event) {
+        this.setState({
+            additional: event.target.value
+        })
+    }
+
+    handleSubmit(event) {
+        this.setState({
+            showError: false
+        })
+        if(!this.state.priority || !this.state.title){
+            this.setState({
+                showError: true
+            })
+            return;
+        }
         this.props.passFun(this.state)
         event.preventDefault();
     }
 
     render() {
+        const { showError } = this.state
         return (
             <div>
                 <Container>
                     <Card body inverse color="primary">
                         <CardBody>
                             <CardTitle>Add Task</CardTitle>
-                                <Input placeholder="Task" value={this.state.title} onChange={this.handleChange}></Input>
-                                <div className="priorityAndAdditionalNotes">
-                                    <Row>
-                                        <Col sm="2">
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input type="radio" name="radio1" value={'important'} onChange={this.handlePriority}  />{' '}
-                                                    Important
+                            <Input placeholder="Task" value={this.state.title} onChange={this.handleChange}></Input>
+                            <div className="priorityAndAdditionalNotes">
+                                <Row>
+                                    <Col lg="2">
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio1" value={'important'} onChange={this.handlePriority} />{' '}
+                                                Important
                                                 </Label>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col sm="2">
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input type="radio" name="radio1" value={'less'} onChange={this.handlePriority} />{' '}
-                                                    Less important
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="2">
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio1" value={'less'} onChange={this.handlePriority} />{' '}
+                                                Less important
                                                 </Label>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col sm="2">
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input type="radio" name="radio1" value={'wait'} onChange={this.handlePriority}/>{' '}
-                                                    Can wait
+                                        </FormGroup>
+                                    </Col>
+                                    <Col lg="2">
+                                        <FormGroup check>
+                                            <Label check>
+                                                <Input type="radio" name="radio1" value={'wait'} onChange={this.handlePriority} />{' '}
+                                                Can wait
                                                 </Label>
-                                            </FormGroup>
-                                        </Col>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label for="exampleText">Additional Notes</Label>
-                                                <Input type="textarea" name="text" id="exampleText" value={this.state.additional} onChange={this.handleAdditionalChange}/>
-                                            </FormGroup>
-                                        </Col>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col>
+                                        <FormGroup>
+                                            <Label for="exampleText">Additional Notes (Optional)</Label>
+                                            <Input type="textarea" name="text" id="exampleText" value={this.state.additional} onChange={this.handleAdditionalChange} />
+                                        </FormGroup>
+                                    </Col>
 
-                                    </Row>
-                                </div>
-                                <Button color="success" onClick={this.handleSubmit}>Submit</Button>
+                                </Row>
+                            </div>
+                            <Row>
+                                <Col xs="2" sm="3" md="3" lg="3">
+                                    <Button color="success" onClick={this.handleSubmit}>Submit</Button>
+                                </Col>
+                                <Col xs="10" sm="9" md="9" lg="9">
+                                    { showError ? <Error></Error> : null}
+                                </Col>
+                            </Row>
                         </CardBody>
                     </Card>
                 </Container>
 
 
-                
+
             </div>
         )
     }
