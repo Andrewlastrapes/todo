@@ -10,7 +10,7 @@ class InputContainer extends Component {
         title: '',
         priority: "",
         additional: "",
-        showError: false
+        errorMessage: []
     }
 
     constructor(props) {
@@ -44,12 +44,13 @@ class InputContainer extends Component {
     }
 
     handleSubmit(event) {
+        let err = ["Please fill out priority and title."]
         this.setState({
             showError: false
         })
         if(!this.state.priority || !this.state.title){
             this.setState({
-                showError: true
+                showError: err
             })
             return;
         }
@@ -58,7 +59,7 @@ class InputContainer extends Component {
     }
 
     render() {
-        const { showError } = this.state
+        const { errorMessage } = this.state
         return (
             <div>
                 <Container>
@@ -106,7 +107,7 @@ class InputContainer extends Component {
                                     <Button color="success" onClick={this.handleSubmit}>Submit</Button>
                                 </Col>
                                 <Col xs="10" sm="9" md="9" lg="9">
-                                    { showError ? <Error></Error> : null}
+                                    { showError ? <Error errorMessage={errorMessage}></Error> : null}
                                 </Col>
                             </Row>
                         </CardBody>

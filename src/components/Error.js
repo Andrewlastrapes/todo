@@ -3,13 +3,20 @@ import { Alert } from "reactstrap";
 
 class Error extends Component {
 
-    render(){
-        return(
-            <div>
-                <Alert color="danger">
-                    Title and Priority must not be blank
-                </Alert>
-            </div>
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const { errorMessage } = this.props
+        return (
+            errorMessage.map(e => 
+                <div>
+                    <Alert color="danger">
+                        {errorMessage}
+                    </Alert>
+                </div>
+            )
         )
     }
 
