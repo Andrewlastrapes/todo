@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const postModel = require("../models/postModel");
+const userModel = require("../models/userModel")
 
 
 router.post("", (req, res) => {
@@ -13,20 +14,25 @@ router.post("", (req, res) => {
         date: req.body.date
     });
 
-    model.save()
+    userModel.findOneAndUpdate({email: req.body.email},
+        { $push: { tasks: model }})
+        .then(data => {
+            res.status(200).json({
+                data: data
+            })
+        })
 
-    res.status(200).json({
-        data: req.body
-    })
 
 });
 
-router.get("", (req, res) => {
-    postModel.find().then(data => {
+router.post("/get-user-tasks", (req, res) => {
+    userModel.findOne({email: req.body.email}).then(data => {
+        console.log("30" + data)
         res.status(200).json({
-            data: data
+            data: data["tasks"]
         })
     })
+   
 })
 
 module.exports = router;

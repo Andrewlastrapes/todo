@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, InputGroup, FormGroup, Form, Label, Container, Card, CardTitle, CardBody, Row, Col } from "reactstrap";
+import { Button, Input, Badge, FormGroup, Form, Label, Container, Card, CardTitle, CardBody, Row, Col } from "reactstrap";
 import "../css/InputContainer.css"
 import Error from "./Error";
 
@@ -59,12 +59,14 @@ class InputContainer extends Component {
     }
 
     render() {
+        const { user } = this.props
         const { errorMessage } = this.state
         return (
             <div>
                 <Container>
                     <Card body inverse color="primary">
                         <CardBody>
+                        <div className="float-right"><h3>Welcome <Badge color="secondary">{user}</Badge></h3></div>
                             <CardTitle>Add Task</CardTitle>
                             <Input placeholder="Task" value={this.state.title} onChange={this.handleChange}></Input>
                             <div className="priorityAndAdditionalNotes">
@@ -107,7 +109,7 @@ class InputContainer extends Component {
                                     <Button color="success" onClick={this.handleSubmit}>Submit</Button>
                                 </Col>
                                 <Col xs="10" sm="9" md="9" lg="9">
-                                    { showError ? <Error errorMessage={errorMessage}></Error> : null}
+                                    { errorMessage ? <Error errorMessage={errorMessage}></Error> : null}
                                 </Col>
                             </Row>
                         </CardBody>

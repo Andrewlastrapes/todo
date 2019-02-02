@@ -16,13 +16,16 @@ class TodoList extends Component {
     }
 
     apiCall(){
-        axios.get("http://localhost:3006/post")
+        let payload = {
+            email: this.props.user
+        }
+        axios.post("http://localhost:3006/post/get-user-tasks", payload)
         .then(data => {
+            console.log(data)
             this.setState({
                 todos: data["data"]["data"]
             });
         });
-        console.log(this.state)
     }
 
     componentDidMount(){

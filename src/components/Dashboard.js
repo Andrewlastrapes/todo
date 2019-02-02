@@ -16,7 +16,7 @@ class Dashboard extends Component {
 
     constructor(props){
         super(props)
-
+      
         this.passFun = this.passFun.bind(this)
     }
 
@@ -26,12 +26,14 @@ class Dashboard extends Component {
 
         let date = new Date().toLocaleDateString();
         let time = new Date().toLocaleTimeString();
-        
+        let user = this.props.location.state.user;
+
         let payload = {
             title: s.title,
             date: `${date} ${time}`,
             additional: s.additional,
-            priority: s.priority
+            priority: s.priority,
+            email: user
         }
         
         axios.post("http://localhost:3006/post", payload)
@@ -49,12 +51,13 @@ class Dashboard extends Component {
     }
 
     render() {
+        const { user } = this.props.location.state
         return (
             <div>
                 <NavBar />
                 <div className="inputCard">
-                    <InputContainer passFun={this.passFun}></InputContainer>
-                    <TodoList></TodoList>
+                    <InputContainer user={user} passFun={this.passFun}></InputContainer>
+                    <TodoList user={user}></TodoList>
                 </div>
             </div>
         )

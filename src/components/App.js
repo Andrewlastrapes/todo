@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import '../App.css';
-import Entrance from "./Entrance"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Entrance from "./Entrance";
+import Dashboard from "./Dashboard";
 
 
 class App extends Component {
   render() {
     return (
+      <Router>
       <div className="App">
-        <Entrance />
+        <Route exact path="/" component={Entrance} ></Route>
+        <Route exact path="/dashboard" component={Dashboard}></Route>
       </div>
+      </Router>
     );
   }
 }

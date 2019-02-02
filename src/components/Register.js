@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 import { Col, Button, Form, FormGroup, Label, Input, Badge, Row, Container } from 'reactstrap';
 import Error from "./Error"
 
@@ -18,6 +18,7 @@ class Register extends Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePassChange = this.handlePassChange.bind(this);
         this.handleConfChange = this.handleConfChange.bind(this);
+        this.postRegister = this.postRegister.bind(this);
     }
 
     handleEmailChange(e) {
@@ -38,6 +39,30 @@ class Register extends Component {
         });
     }
 
+
+    postRegister(){
+        let payload = {
+            email: this.state.email,
+            password: this.state.password
+        }
+          axios.post("http://localhost:3006/user/register", payload).then((data) => {
+            let err = []
+            console.log(data)
+            console.log(data["data"]["errMessage"])
+            if(data["data"]["errMessage"]){
+                err.push(data["data"]["errMessage"]);
+                this.setState({
+                    errorMessage: err
+                })
+                return;
+            }
+                this.props.toggleRegister()
+         } 
+            
+        )
+    }
+
+
     register() {
         let err = []
        if(!this.state.email || !this.state.password || !this.state.confirm){
@@ -48,7 +73,9 @@ class Register extends Component {
        }
        this.setState({
            errorMessage: err
-       })
+       });
+       this.postRegister()
+
     }
 
     render() {

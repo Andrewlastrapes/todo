@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const bodyParser = require("body-parser");
 const postRoute = require("./routes/post");
+const userRoute = require("./routes/user");
 
 app.use((req, response, next) => {
     response.setHeader("Access-Control-Allow-Origin", "*");
@@ -12,7 +13,9 @@ app.use((req, response, next) => {
     next();
 });
 
-mongoose.connect("mongodb+srv://andrewlastrapes:6sOgz3Clvmf6n0h4@cluster0-umwwg.mongodb.net/test?retryWrites=true", () => {
+
+
+mongoose.connect("mongodb+srv://andrewlastrapes:igCtZM6MaGDH6OCg@cluster0-epe8p.mongodb.net/test?retryWrites=true", () => {
     console.log("Connected to mongoDB")
 });
 
@@ -21,5 +24,6 @@ app.use(bodyParser.json());
 
 
 app.use("/post", postRoute);
+app.use("/user", userRoute);
 
 module.exports = app;
