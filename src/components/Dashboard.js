@@ -5,19 +5,28 @@ import "../css/Dashboard.css"
 import TodoList from "./TodoList";
 import axios from "axios"
 
+
 class Dashboard extends Component {
 
     state = {
         title: "",
         additional: "",
         priority: "",
-        date: ""
+        date: "",
+        test: "test"
     }
 
     constructor(props){
         super(props)
       
         this.passFun = this.passFun.bind(this)
+        this.test = this.test.bind(this)
+    }
+
+    test(){
+        this.setState({
+            test: "Changed to this"
+        })
     }
 
     passFun(s){

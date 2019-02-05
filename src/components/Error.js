@@ -10,8 +10,8 @@ class Error extends Component {
     render() {
         const { errorMessage } = this.props
         return (
-            errorMessage.map(e => 
-                <div>
+            errorMessage.map((e, i) => 
+                <div key={i}>
                     <Alert color="danger">
                         {errorMessage}
                     </Alert>

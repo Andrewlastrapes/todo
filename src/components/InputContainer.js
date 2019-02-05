@@ -10,7 +10,7 @@ class InputContainer extends Component {
         title: '',
         priority: "",
         additional: "",
-        errorMessage: []
+        errMessage: []
     }
 
     constructor(props) {
@@ -32,8 +32,7 @@ class InputContainer extends Component {
     }
 
 
-    handleChange(event, type) {
-        console.log(type)
+    handleChange(event) {
         this.setState({ title: event.target.value });
     }
 
@@ -50,17 +49,23 @@ class InputContainer extends Component {
         })
         if(!this.state.priority || !this.state.title){
             this.setState({
-                showError: err
+               errMessage: err
             })
             return;
         }
         this.props.passFun(this.state)
+        this.setState({
+            title: '',
+            priority: "",
+            additional: "",
+            errMessage: []
+        })
         event.preventDefault();
     }
 
     render() {
         const { user } = this.props
-        const { errorMessage } = this.state
+        const { errMessage } = this.state
         return (
             <div>
                 <Container>
@@ -109,7 +114,7 @@ class InputContainer extends Component {
                                     <Button color="success" onClick={this.handleSubmit}>Submit</Button>
                                 </Col>
                                 <Col xs="10" sm="9" md="9" lg="9">
-                                    { errorMessage ? <Error errorMessage={errorMessage}></Error> : null}
+                                    { errMessage ? <Error errorMessage={errMessage}></Error> : null}
                                 </Col>
                             </Row>
                         </CardBody>

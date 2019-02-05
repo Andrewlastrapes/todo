@@ -31,24 +31,31 @@ class Login extends Component {
     }
 
     login(){
+        let err = [];
+        if(!this.state.email || !this.state.password){
+            err.push("Please enter email and password")
+            this.setState({
+                errMessage: err
+            })
+            return;
+        }
+
         let payload = {
             email: this.state.email,
             password: this.state.password
         }
         axios.post("http://localhost:3006/user/login", payload).then(result => {
             console.log(result["data"]["token"]);
-            let err = []
-            if(!result["data"]["token"]){
-                err.push(result["err"])
+            if(result["data"]["err"]){
+                err.push(result["data"]["err"])
+                console.log(err)
                 this.setState({
-                    errorMessage: err
+                    errMessage: err
                 })
             } else {
                 this.setState({
                     toDashboard: true
                 })
-                // this.props.history.push('/dashboard')
-                // Navigate to Dashboard
             }
             
         })
@@ -82,7 +89,7 @@ class Login extends Component {
                                     <Input type="password" name="password" id="Password" onChange={this.handlePassChange} value={password} />
                                 </Col>
                             </FormGroup>
-                            {errMessage.length > 0 ? <Col><Error errMessage={errMessage}></Error></Col> : null }
+                            {errMessage.length > 0 ? <Col><Error errorMessage={errMessage}></Error></Col> : null }
                             <Button onClick={this.login} size="lg">Login</Button>
                         </Form>
                    
